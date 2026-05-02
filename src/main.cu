@@ -42,7 +42,7 @@ int main()
     
     cudaMemcpy(hC1, dC, M * N * sizeof(half), cudaMemcpyDeviceToHost);
 
-    TEST::MatMul(dA, dB, dC, M, N, K);
+    TEST::MatMul<<<blocks, threads>>>(dA, dB, dC, M, N, K);
     cudaDeviceSynchronize();
 
     cudaMemcpy(hC2, dC, M * N * sizeof(half), cudaMemcpyDeviceToHost);
