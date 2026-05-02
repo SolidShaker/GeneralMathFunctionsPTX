@@ -27,21 +27,41 @@ namespace TEST
         }
     }
 
-    void
+    void 
     VerifyResult(half* first, half* second, int M, int N, float tolerance = 0.01f) 
     {
         float totalMismatch = 0.f;
         int counterMismatch = 0;
+        float maxMismatch = 0.0f;
+        
         for (int i = 0; i < M * N; i++) 
         {
-            int difference = std::abs(__half2float(first[i]) - __half2float(second[i]));
+            float val1 = __half2float(first[i]);
+            float val2 = __half2float(second[i]);
+            float difference = std::abs(val1 - val2);  // FIXED: use float, not int
+            
             if (difference > tolerance) 
             {
                 totalMismatch += difference;
                 counterMismatch++;
+                maxMismatch = std::max(maxMismatch, difference);
             }
         }
-        std::cout << "TotalMismatch " << totalMismatch << " | CounterMismatch " << counterMismatch << std::endl;        
+        
+        float mismatchRate = (counterMismatch / (float)(M * N)) * 100.0f;
+        
+        std::cout << "Verification Results:\n";
+        std::cout << "  Total mismatches: " << counterMismatch << " / " << (M * N) 
+                  << " (" << mismatchRate << "%)\n";
+        std::cout << "  Total error sum: " << totalMismatch << "\n";
+        std::cout << "  Maximum error: " << maxMismatch << "\n";
+        std::cout << "  Average error: " << (counterMismatch > 0 ? totalMismatch / counterMismatch : 0) << "\n";
+        
+        if (counterMismatch == 0) {
+            std::cout << "  Result: ✓ PASSED (all within tolerance)\n";
+        } else {
+            std::cout << "  Result: ✗ FAILED (" << counterMismatch << " elements outside tolerance)\n";
+        }
     }
 }
 
