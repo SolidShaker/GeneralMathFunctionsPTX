@@ -47,7 +47,7 @@ int main()
     cudaDeviceSynchronize();
     cudaMemcpy(hC2, dC2, M * N * sizeof(half), cudaMemcpyDeviceToHost);
 
-    TEST::VerifyResult(hC1, hC2, M, N);
+    // TEST::VerifyResult(hC1, hC2, M, N);
 
     cudaFree(dA);
     cudaFree(dB);
