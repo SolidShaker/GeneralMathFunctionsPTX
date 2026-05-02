@@ -43,10 +43,10 @@ namespace FP
                 sum += __half2float(As[ty][k]) * __half2float(Bs[k][tx]);
             __syncthreads();
         }
-    }
 
-    if (row < M && col < N)
-        C[row * N + col] = __float2half(sum);
+        if (row < M && col < N)
+            C[row * N + col] = __float2half(sum);
+    }
 };
 
 
