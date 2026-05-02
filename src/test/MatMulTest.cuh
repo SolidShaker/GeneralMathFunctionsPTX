@@ -20,9 +20,9 @@ namespace TEST
         
         if (row < M && col < N) {
             float sum = 0.0f;
-            for (int k = 0; k < K; k++) {
+            for (int k = 0; k < K; k++) 
                 sum += __half2float(A[row * K + k]) * __half2float(B[k * N + col]);
-            }
+
             C[row * N + col] = __float2half(sum);
         }
     }

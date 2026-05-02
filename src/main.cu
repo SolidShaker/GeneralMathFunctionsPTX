@@ -19,8 +19,8 @@ int main()
     half* hC1 = new half[M * N];
     half* hC2 = new half[M * N];
 
-    for (int i = 0; i < M * K; i++) hA[i] = __half2float(1.f);
-    for (int i = 0; i < K * N; i++) hB[i] = __half2float(2.f);   
+    for (int i = 0; i < M * K; i++) hA[i] = __float2half(1.f);
+    for (int i = 0; i < K * N; i++) hB[i] = __float2half(2.f);   
 
 
     half* dA;
