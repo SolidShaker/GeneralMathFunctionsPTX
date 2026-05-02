@@ -2,6 +2,7 @@
 #define MATMULTEST_H
 
 #include <cuda_f16.h>
+#include <cuda_runtime.h>
 #include <iostream>
 
 
