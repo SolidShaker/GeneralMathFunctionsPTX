@@ -10,9 +10,9 @@
 namespace TEST
 {
     __global__ void MatMul(
-        const float* __restrict__ A,
-        const float* __restrict__ B,
-        float* __restrict__ C,
+        const half* __restrict__ A,
+        const half* __restrict__ B,
+        half* __restrict__ C,
         int M, int N, int K
     ) {
         int row = blockIdx.y * blockDim.y + threadIdx.y;
@@ -21,9 +21,9 @@ namespace TEST
         if (row < M && col < N) {
             float sum = 0.0f;
             for (int k = 0; k < K; k++) {
-                sum += A[row * K + k] * B[k * N + col];
+                sum += __half2float(A[row * K + k]) * __half2float(B[k * N + col]);
             }
-            C[row * N + col] = sum;
+            C[row * N + col] = __float2half(sum);
         }
     }
 
