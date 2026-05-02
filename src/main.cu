@@ -25,11 +25,13 @@ int main()
 
     half* dA;
     half* dB;
-    half* dC;
+    half* dC1;
+    half* dC2;
 
     cudaMalloc(&dA, M * K * sizeof(half));
     cudaMalloc(&dB, K * N * sizeof(half));
-    cudaMalloc(&dC, M * N * sizeof(half));
+    cudaMalloc(&dC1, M * N * sizeof(half));
+    cudaMalloc(&dC2, M * N * sizeof(half));
 
     cudaMemcpy(dA, hA, M * K * sizeof(half), cudaMemcpyHostToDevice);
     cudaMemcpy(dB, hB, K * N * sizeof(half), cudaMemcpyHostToDevice);
@@ -37,20 +39,19 @@ int main()
     dim3 threads(16, 16);
     dim3 blocks((N + 15) / 16, (M + 15) / 16);
 
-    FP::MatMul<32><<<blocks, threads>>>(dA, dB, dC, M, N, K);
+    FP::MatMul<32><<<blocks, threads>>>(dA, dB, dC1, M, N, K);
     cudaDeviceSynchronize();
-    
-    cudaMemcpy(hC1, dC, M * N * sizeof(half), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hC1, dC1, M * N * sizeof(half), cudaMemcpyDeviceToHost);
 
-    TEST::MatMul<<<blocks, threads>>>(dA, dB, dC, M, N, K);
+    TEST::MatMul<<<blocks, threads>>>(dA, dB, dC2, M, N, K);
     cudaDeviceSynchronize();
-
-    cudaMemcpy(hC2, dC, M * N * sizeof(half), cudaMemcpyDeviceToHost);
+    cudaMemcpy(hC2, dC2, M * N * sizeof(half), cudaMemcpyDeviceToHost);
 
     TEST::VerifyResult(hC1, hC2, M, N);
 
     cudaFree(dA);
     cudaFree(dB);
-    cudaFree(dC);
+    cudaFree(dC1);
+    cudaFree(dC2);
     return 0;
 }
