@@ -1,5 +1,5 @@
 #include "MatMul.cuh"
-#include "test/MatMul.cuh"
+#include "test/MatMulTest.cuh"
 
 __host__ __forceinline__ int GetPadding(int size, int delimeter)
 {
@@ -49,5 +49,8 @@ int main()
 
     TEST::VerifyResult(hC1, hC2, M, N);
 
+    cudaFree(dA);
+    cudaFree(dB);
+    cudaFree(dC);
     return 0;
 }
