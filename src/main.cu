@@ -39,7 +39,7 @@ int main()
     dim3 threads(16, 16);
     dim3 blocks((N + 15) / 16, (M + 15) / 16);
 
-    FP::MatMul<32><<<blocks, threads>>>(dA, dB, dC1, M, N, K);
+    FP::MatMul<16><<<blocks, threads>>>(dA, dB, dC1, M, N, K);
     cudaDeviceSynchronize();
     cudaMemcpy(hC1, dC1, M * N * sizeof(half), cudaMemcpyDeviceToHost);
 

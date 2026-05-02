@@ -41,7 +41,7 @@ namespace TEST
                 counterMismatch++;
             }
         }
-        std::cout << "TotalMismatch" << totalMismatch << "CounterMismatch" << counterMismatch << std::endl;        
+        std::cout << "TotalMismatch " << totalMismatch << " | CounterMismatch " << counterMismatch << std::endl;        
     }
 }
 
